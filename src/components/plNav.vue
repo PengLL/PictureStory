@@ -7,13 +7,13 @@
           <li   v-for="(item,index) in tabs" 
           :class="{active:item.isActive}" 
           @click="setActive(index)">
-          <a>{{item.tabName}}</a></li>
+          <a class="pl-a1">{{item.tabName}}</a></li>
         </ul>
         <ul v-else class="nav navbar-nav nav-list">
           <li         
           :class="{active:tabs[0].isActive}" 
           @click="setActive(0)">
-          <a>{{tabs[0].tabName}}</a></li>
+          <a class="pl-a1">{{tabs[0].tabName}}</a></li>
         </ul>
         
         <form class="navbar-form navbar-left" role="search">
@@ -21,12 +21,23 @@
           <button type="submit" class="btn btn-default">搜索</button>
         </form>
         <ul v-if="loginedStatus" class="nav navbar-nav navbar-right">
-          <li><a>你好：{{userName}}</a></li>
-          
+          <li>
+            <a class="pl-a2">
+              <div class="dropdown">
+                <div id="dropdownMenu1" data-toggle="dropdown">
+                  你好： {{userName}}
+                  <span class="caret"></span>         
+                </div>
+                <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
+                  <li role="presentation"><a role="menuitem" tabindex="-1" @click="loginOut" class="pl-a2">退出登录</a></li>           
+                </ul>
+              </div>
+            </a>
+          </li>
         </ul>
         <ul v-else class="nav navbar-nav navbar-right">
-          <li @click="login(true)"><a>登陆</a></li>
-          <li @click="login(false)"><a>注册</a></li>
+        <li @click="login(true)"><a class="pl-a1">登陆</a></li>
+          <li @click="login(false)"><a class="pl-a1">注册</a></li>
         </ul>
       </div>
     </nav>  
@@ -35,10 +46,10 @@
 </template>
 
 <script>
-import plAjax from '../assets/js/plAjax';
-import toolKit from '../assets/js/plCommon'
-import bus from '../assets/js/plBus';
-import cookieTool from 'cookie_js';
+  import plAjax from '../assets/js/plAjax';
+  import toolKit from '../assets/js/plCommon'
+  import bus from '../assets/js/plBus';
+  import cookieTool from 'cookie_js';
 
   export default {
     name: 'app',
@@ -60,7 +71,7 @@ import cookieTool from 'cookie_js';
     },
     data:function () {
       return {
-        loginedStatus:false,
+        loginedStatus:true,
         userName:"未知用户",
         tabs:[
         {tabName:"发现",isActive:true,status:false},
@@ -84,6 +95,10 @@ import cookieTool from 'cookie_js';
         this.userName=loginObj.UserName;
         cookieTool.cookie.set("UserName",loginObj.UserName);
         console.log(loginObj.UserName+" 已经被写入cookie");
+      },
+      loginOut:function(){
+        cookieTool.cookie.remove("UserName");
+        this.loginedStatus=false;
       }
     }
   }
@@ -103,13 +118,18 @@ import cookieTool from 'cookie_js';
   .navbar{
     margin-bottom: 5px;
   }
-  .nav li a{
+  .pl-a1{
     cursor:pointer;
     font-size:18px;
     color:#000 !important;
     &:hover{
       font-weight:bold;
     }
+  }
+  .pl-a2{
+    cursor: pointer;
+    font-size: 16px;
+    color: #222 !important;
   }
   .pl-hide{
     display: none!important;
