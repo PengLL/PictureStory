@@ -65,7 +65,7 @@
       if(cookieTool.cookie.get("UserName")!=undefined){
         this.loginedStatus=true;
         this.userName=cookieTool.cookie.get("UserName");
-        console.log(cookieTool.cookie.get("UserName"));
+        console.log("从cookie中获取到了用户名： "+cookieTool.cookie.get("UserName"));
       }
       bus.$on("userLogined",this.logined);
     },
